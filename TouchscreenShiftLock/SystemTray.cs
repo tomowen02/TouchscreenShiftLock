@@ -13,7 +13,7 @@ namespace TouchscreenShiftLock
 {
     class SystemTray : ApplicationContext
     {
-        private static NotifyIcon trayIcon;
+       private static NotifyIcon trayIcon;
 
        public SystemTray()
         {
@@ -35,22 +35,29 @@ namespace TouchscreenShiftLock
         {
             try
             {
-                InputSimulator InputSimulator = new InputSimulator();
-                VirtualKeyCode keyCode = VirtualKeyCode.SHIFT;
+                DialogResult result = MessageBox.Show("Do you want to enable shift lock for 5 seconds?", "Shift Lock", MessageBoxButtons.YesNo, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
-                MessageBox.Show("Shift lock has been enabled for 5 seconds", "Shift Lock", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-
-                InputSimulator.Keyboard.KeyDown(keyCode); // Hold the key down
-                Thread.Sleep(5000); // Wait 5 seconds
-                InputSimulator.Keyboard.KeyUp(keyCode); // Release the key
-                MessageBox.Show("Shift key is released", "Shift Lock", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                if (result == DialogResult.Yes)
+                {
+                    ShiftLock();
+                }
             }
             catch (Exception)
             {
-
                 MessageBox.Show("Unknown error occured");;
             }
             
+        }
+
+        private static void ShiftLock()
+        {
+            InputSimulator InputSimulator = new InputSimulator();
+            VirtualKeyCode keyCode = VirtualKeyCode.SHIFT;
+
+            InputSimulator.Keyboard.KeyDown(keyCode); // Hold the key down
+            Thread.Sleep(5000); // Wait 5 seconds
+            InputSimulator.Keyboard.KeyUp(keyCode); // Release the key
+            MessageBox.Show("Shift lock has ended", "Shift Lock", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
 
         private static void Exit(object sender, EventArgs e)

@@ -24,7 +24,6 @@ namespace TouchscreenShiftLock
             RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             reg.SetValue("Touchscreen Shift Lock", Application.ExecutablePath.ToString());
 
-            
             Application.Run(new SystemTray());
         }
     }
